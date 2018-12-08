@@ -47,7 +47,10 @@ print(df.groupby('category')['amount'].sum())
 df2 = df[df['category'] == 'other']
 print(df2[['merchant', 'category']])
 
-'''
-aggregate_over_time_freq(df2, group_col='Spending Category', dt_col='Posted Date',
-                         freq='M', value_col='Debit')
-'''
+# spend per month total
+print(aggregate_over_time_freq(df, group_col=None, dt_col='date',
+                               freq='M', value_col='amount'))
+
+# spend per month by category
+print(aggregate_over_time_freq(df, group_col='category', dt_col='date',
+                               freq='M', value_col='amount'))

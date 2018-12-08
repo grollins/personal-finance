@@ -24,4 +24,7 @@ def aggregate_over_time_freq(df, group_col='group', dt_col='date', freq='M',
     http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases
     """
     g = pd.Grouper(key=dt_col, freq=freq)
-    return df.groupby([group_col, g])[value_col].sum()
+    groupby_vars = [g]
+    if group_col:
+        groupby_vars.append(group_col)
+    return df.groupby(groupby_vars)[value_col].sum()
