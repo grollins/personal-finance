@@ -13,7 +13,7 @@ def fuzzy_match_factory(choice_dict, score_cutoff=80):
             top_hit_key = m[0]
             return choice_dict[top_hit_key]
         else:
-            return ''
+            return 'other'
     return fuzzy_match
 
 def aggregate_over_time_freq(df, group_col='group', dt_col='date', freq='M',

@@ -36,12 +36,16 @@ amex3 = amex2[columns_to_keep]
 
 # Union data
 df = pd.concat([geoff_cap_one3, amex3])
+df['merchant'] = df.merchant.apply(lambda x: x.lower())
 
-# fuzzy_match_fcn = fuzzy_match_factory(MERCHANTS_BY_SPENDING_CATEGORY)
-# df2['Spending Category'] = df2['Description'].map(fuzzy_match_fcn)
-# print(df2['Spending Category'].value_counts())
-#
-# print(df2.groupby('Spending Category')['Debit'].sum())
+# Map merchants to spending categories
+fuzzy_match_fcn = fuzzy_match_factory(MERCHANTS_BY_SPENDING_CATEGORY)
+df['category'] = df['merchant'].map(fuzzy_match_fcn)
+print(df['category'].value_counts())
+print(df.groupby('category')['amount'].sum())
+
+df2 = df[df['category'] == 'other']
+print(df2[['merchant', 'category']])
 
 '''
 aggregate_over_time_freq(df2, group_col='Spending Category', dt_col='Posted Date',
