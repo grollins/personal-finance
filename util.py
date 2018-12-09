@@ -16,6 +16,15 @@ def fuzzy_match_factory(choice_dict, score_cutoff=80):
             return 'other'
     return fuzzy_match
 
+def categorize_checks_factory(check_dict):
+    def categorize_checks(row):
+        category = row['category']
+        if row['account'] == 'Chase Checking' and category == 'other' and row['merchant'].startswith('check'):
+            # for chase checks, use category provided by dictionary
+            category = check_dict[row['merchant']]
+        return category
+    return categorize_checks
+
 def aggregate_over_time_freq(df, group_col='group', dt_col='date', freq='M',
                              value_col='count'):
     """
