@@ -13,8 +13,14 @@ amex = pd.read_csv('data/amex_20180101_20181130.csv', header=None,
                    parse_dates=[0])
 # chase csv was malformed: I had to change Check or Slip in the header to
 # Check,Slip in order for the file to parse correctly
-chase_checking = pd.read_csv('data/chase_checking_20180101_20181130.csv',
+chase_checking = pd.read_csv('data/joint_chase_checking_20180101_20181130.csv',
                              parse_dates=['Posting Date'])
+# this credit card is mostly amazon, so maybe use amazon data directly?
+# dan_chase_cc = pd.read_csv('data/dan_chase_cc_20180901_20181130.csv',
+#                            parse_dates=['Trans Date', 'Post Date'])
+amazon = pd.read_csv('data/amazon_20180101_20181130.csv',
+                     parse_dates=['Order Date'],
+                     usecols=['Order Date', 'Item Total'])
 
 '''
 Conform columns
@@ -39,12 +45,26 @@ chase_checking['account'] = 'Chase Checking'
 chase_checking['card holder'] = 'joint'
 chase_checking['amount'] *= -1
 
+# dan_chase_cc.columns = ['transaction class', 'transaction date', 'date',
+#                         'merchant', 'amount']
+# dan_chase_cc['account'] = 'Chase Credit Card'
+# dan_chase_cc['card holder'] = 'dan'
+# dan_chase_cc['amount'] *= -1
+
+amazon.columns = ['date', 'total_usd']
+amazon['merchant'] = 'amazon.com'
+amazon['account'] = 'Amazon'
+amazon['card holder'] = 'joint'
+amazon['amount'] = amazon['total_usd'].apply(lambda x: float(x[1:]))
+
 '''
 Ignore credits for now
 '''
 geoff_cap_one2 = geoff_cap_one[geoff_cap_one['amount'] >= 0.0]
 amex2 = amex[amex['amount'] >= 0.0]
 chase_checking2 = chase_checking[chase_checking['amount'] >= 0.0]
+# dan_chase_cc2 = dan_chase_cc[dan_chase_cc['amount'] >= 0.0]
+amazon2 = amazon[amazon['amount'] >= 0.0]
 
 '''
 Remove unused columns
@@ -53,11 +73,13 @@ columns_to_keep = ['date', 'account', 'merchant', 'card holder', 'amount']
 geoff_cap_one3 = geoff_cap_one2[columns_to_keep]
 amex3 = amex2[columns_to_keep]
 chase_checking3 = chase_checking2[columns_to_keep]
+# dan_chase_cc3 = dan_chase_cc2[columns_to_keep]
+amazon3 = amazon2[columns_to_keep]
 
 '''
 Union data
 '''
-df = pd.concat([geoff_cap_one3, amex3, chase_checking3]).reset_index(drop=True)
+df = pd.concat([geoff_cap_one3, amex3, chase_checking3, amazon3]).reset_index(drop=True)
 df['merchant'] = df.merchant.apply(lambda x: x.lower().strip())
 
 '''

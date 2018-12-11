@@ -91,6 +91,7 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'eb introduction to tl': 'work training',
     'health ins': 'cobra',
     'atm withdrawal': 'cash',
+    'withdrawal': 'cash',
     'pgande           web online': 'electricity',
     'american express ach': 'credit card balance',
     'chase credit crd autopay': 'credit card balance',
@@ -98,14 +99,18 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'cafe venetia': 'restaurant',
     'international incoming wire fee': 'misc',
     'quickpay with zelle': 'misc',
-    'state farm': 'renters insurance'
+    'state farm': 'renters insurance',
+    'amzn mktp': 'online shopping',
+    'general nutrition center': 'misc shopping',
+    'amazon.com': 'online shopping',
+    'amazon prime': 'online shopping'
 }
 
 CHASE_CHECKS = {
     'check 195': 'water',
     'check 196': 'rent',
-    'check 197': 'other',
-    'check 198': 'other',
+    'check 197': 'cobra',
+    'check 198': 'healthcare',
     'check 199': 'water',
     'check 200': 'rent',
     'check 201': 'water',
@@ -116,7 +121,7 @@ CHASE_CHECKS = {
     'check 206': 'renters insurance',
     'check 207': 'water',
     'check 208': 'rent',
-    'check 209': 'other',
+    'check 209': 'misc',
     'check 210': 'water',
     'check 211': 'rent',
     'check 212': 'water',
@@ -126,11 +131,11 @@ CHASE_CHECKS = {
     'check 216': 'water',
     'check 217': 'rent',
     'check 219': 'water',
-    'check 220': 'other',
-    'check 221': 'other',
-    'check 222': 'other',
-    'check 223': 'other',
-    'check 224': 'other',
+    'check 220': 'rent',
+    'check 221': 'rent',
+    'check 222': 'rent',
+    'check 223': 'rent',
+    'check 224': 'water',
     'check 225': 'rent',
     'check 226': 'renters insurance'
 }
