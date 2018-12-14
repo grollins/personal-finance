@@ -58,7 +58,7 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'ace hardware': 'misc shopping',
     'five little monkeys': 'misc shopping',
     'intuit': 'tax',
-    'nbcsports': 'video',
+    'nbcsports': 'sports',
     'stamps.com': 'mail',
     'ting': 'phone',
     'the intercept': 'donation',
@@ -72,7 +72,7 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'mediterranean kebab': 'restaurant',
     'aws': 'web',
     'ikon roastery': 'coffee shop',
-    'amazon digital svcs': 'web',
+    'amazon digital svcs': 'work books',
     'yayoi': 'restaurant',
     'wholefds': 'grocery',
     'lyfe kitchen': 'restaurant',
@@ -103,7 +103,16 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'amzn mktp': 'online shopping',
     'general nutrition center': 'misc shopping',
     'amazon.com': 'online shopping',
-    'amazon prime': 'online shopping'
+    'amazon prime': 'online shopping',
+    'the organic coup': 'restaurant',
+    'interviewcake.com': 'work training',
+    'kickstarter.com': 'donation',
+    'rei.com': 'clothes',
+    'mlb.com': 'sports',
+    'chase credit crd autopay': 'remove',
+    'payment to chase card ending in': 'remove',
+    'online transfer to chk': 'remove',
+    'american express ach': 'remove'
 }
 
 CHASE_CHECKS = {

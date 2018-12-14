@@ -91,6 +91,8 @@ df['category'] = df['merchant'].map(fuzzy_match_fcn)
 categorize_checks_fcn = categorize_checks_factory(CHASE_CHECKS)
 df['category'] = df.apply(categorize_checks_fcn, axis=1)
 
+df = df[df['category'] != 'remove']
+
 print(df['category'].value_counts())
 print(df.groupby('category')['amount'].sum())
 
@@ -111,3 +113,5 @@ print(aggregate_over_time_freq(df, group_col=None, dt_col='date',
 print(aggregate_over_time_freq(df, group_col='category', dt_col='date',
                                freq='M', value_col='amount'))
 '''
+
+df.to_csv('output.csv', index=False)
