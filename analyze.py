@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from fuzzywuzzy import process
 from merchants import MERCHANTS_BY_SPENDING_CATEGORY, CHASE_CHECKS
@@ -21,6 +22,8 @@ chase_checking = pd.read_csv('data/joint_chase_checking_20180101_20181130.csv',
 amazon = pd.read_csv('data/amazon_20180101_20181130.csv',
                      parse_dates=['Order Date'],
                      usecols=['Order Date', 'Item Total'])
+schwab = pd.read_csv('data/schwab_checking_20180101_20181130.csv',
+                     parse_dates=['Date'])
 
 '''
 Conform columns
@@ -57,6 +60,14 @@ amazon['account'] = 'Amazon'
 amazon['card holder'] = 'joint'
 amazon['amount'] = amazon['total_usd'].apply(lambda x: float(x[1:]))
 
+schwab.columns = ['date', 'transaction class', 'check number', 'merchant',
+                  'withdrawal', 'deposit', 'balance']
+schwab['account'] = 'Schwab'
+schwab['card holder'] = 'geoff'
+schwab['deposit'] = schwab['deposit'].replace('[\$,]', '', regex=True).astype(float) * -1
+schwab['withdrawal'] = schwab['withdrawal'].replace('[\$,]', '', regex=True).astype(float)
+schwab['amount'] = schwab.deposit.combine_first(schwab.withdrawal)
+
 '''
 Ignore credits for now
 '''
@@ -65,6 +76,7 @@ amex2 = amex[amex['amount'] >= 0.0]
 chase_checking2 = chase_checking[chase_checking['amount'] >= 0.0]
 # dan_chase_cc2 = dan_chase_cc[dan_chase_cc['amount'] >= 0.0]
 amazon2 = amazon[amazon['amount'] >= 0.0]
+schwab2 = schwab[schwab['amount'] >= 0.0]
 
 '''
 Remove unused columns
@@ -75,11 +87,13 @@ amex3 = amex2[columns_to_keep]
 chase_checking3 = chase_checking2[columns_to_keep]
 # dan_chase_cc3 = dan_chase_cc2[columns_to_keep]
 amazon3 = amazon2[columns_to_keep]
+schwab3 = schwab2[columns_to_keep]
 
 '''
 Union data
 '''
-df = pd.concat([geoff_cap_one3, amex3, chase_checking3, amazon3]).reset_index(drop=True)
+df = (pd.concat([geoff_cap_one3, amex3, chase_checking3, amazon3, schwab3])
+        .reset_index(drop=True))
 df['merchant'] = df.merchant.apply(lambda x: x.lower().strip())
 
 '''

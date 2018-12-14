@@ -57,7 +57,7 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'target': 'shopping',
     'ace hardware': 'shopping',
     'five little monkeys': 'shopping',
-    'intuit': 'tax',
+    'intuit': 'taxes',
     'nbcsports': 'entertainment',
     'stamps.com': 'misc',
     'ting': 'phone',
@@ -113,7 +113,10 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'payment to chase card ending in': 'remove',
     'online transfer to chk': 'remove',
     'american express ach': 'remove',
-    'withdrawal 09/27': 'rent'
+    'withdrawal 09/27': 'rent',
+    'first republic': 'cash',
+    'u.s. bank': 'cash',
+    'wells fargo': 'cash'
 }
 
 CHASE_CHECKS = {
