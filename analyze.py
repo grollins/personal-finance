@@ -133,6 +133,8 @@ spend_per_month_and_category = \
 spend_per_month_and_category = \
     (spend_per_month_and_category.reset_index()
                                  .sort_values(['category', 'date']))
+spend_per_month_and_category['date'] = \
+    spend_per_month_and_category['date'].astype('str')
 
 date_category_iter = \
     it.product(spend_per_month.date.astype('str').values, df.category.unique())
@@ -141,5 +143,15 @@ date_category_possible_pairs_df = pd.DataFrame(date_category_possible_pairs,
                                                columns=('date', 'category'))
 date_category_possible_pairs_df['amount'] = 0.0
 
-# df.to_csv('output.csv', index=False)
-# spend_per_month_and_category.to_csv('output2.csv', index=False, float_format='%.2f')
+spend_per_month_and_category2 = \
+    date_category_possible_pairs_df.merge(spend_per_month_and_category,
+                                          on=['date', 'category'], how='left')
+spend_per_month_and_category2['amount'] = \
+    spend_per_month_and_category2['amount_y'].combine_first(spend_per_month_and_category2['amount_x'])
+del spend_per_month_and_category2['amount_x']
+del spend_per_month_and_category2['amount_y']
+spend_per_month_and_category2 = \
+    spend_per_month_and_category2.sort_values(['category', 'date'])
+
+df.to_csv('output.csv', index=False)
+spend_per_month_and_category2.to_csv('output2.csv', index=False, float_format='%.2f')
