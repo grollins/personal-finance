@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import itertools as it
 from fuzzywuzzy import process
 from merchants import MERCHANTS_BY_SPENDING_CATEGORY, CHASE_CHECKS
 from util import fuzzy_match_factory, aggregate_over_time_freq, categorize_checks_factory
@@ -8,7 +9,7 @@ from pdb import set_trace
 '''
 Load data
 '''
-geoff_cap_one = pd.read_csv('data/geoff_capital_one_20180101_20181031.csv',
+geoff_cap_one = pd.read_csv('data/geoff_capital_one_20180101_20181130.csv',
                             parse_dates=['Transaction Date', 'Posted Date'])
 amex = pd.read_csv('data/amex_20180101_20181130.csv', header=None,
                    parse_dates=[0])
@@ -118,14 +119,27 @@ print(df2[['merchant', 'date', 'amount']])
 
 '''
 Analysis
-
+'''
 # spend per month total
-print(aggregate_over_time_freq(df, group_col=None, dt_col='date',
-                               freq='M', value_col='amount'))
+spend_per_month = aggregate_over_time_freq(df, group_col=None, dt_col='date',
+                                           freq='M', value_col='amount')
+spend_per_month = spend_per_month.reset_index()
+print(spend_per_month)
 
 # spend per month by category
-print(aggregate_over_time_freq(df, group_col='category', dt_col='date',
-                               freq='M', value_col='amount'))
-'''
+spend_per_month_and_category = \
+    aggregate_over_time_freq(df, group_col='category', dt_col='date',
+                               freq='M', value_col='amount')
+spend_per_month_and_category = \
+    (spend_per_month_and_category.reset_index()
+                                 .sort_values(['category', 'date']))
 
-df.to_csv('output.csv', index=False)
+date_category_iter = \
+    it.product(spend_per_month.date.astype('str').values, df.category.unique())
+date_category_possible_pairs = [c for c in date_category_iter]
+date_category_possible_pairs_df = pd.DataFrame(date_category_possible_pairs,
+                                               columns=('date', 'category'))
+date_category_possible_pairs_df['amount'] = 0.0
+
+# df.to_csv('output.csv', index=False)
+# spend_per_month_and_category.to_csv('output2.csv', index=False, float_format='%.2f')
