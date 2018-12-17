@@ -155,3 +155,20 @@ spend_per_month_and_category2 = \
 
 df.to_csv('output.csv', index=False)
 spend_per_month_and_category2.to_csv('output2.csv', index=False, float_format='%.2f')
+
+for k, v in spend_per_month_and_category2.groupby('category'):
+    print(k)
+    print(v)
+    print(v.amount.mean())
+
+for c in df.category.unique():
+    cat_df = df[df['category'] == c].sort_values('amount', ascending=False)
+    print(c)
+    print(cat_df.groupby('merchant')['amount']
+                .sum()
+                .sort_values(ascending=False))
+    print("")
+
+print(df.groupby('category')['amount']
+        .sum()
+        .sort_values(ascending=False))

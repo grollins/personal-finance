@@ -99,7 +99,7 @@ MERCHANTS_BY_SPENDING_CATEGORY = {
     'franchise tax bo payments': 'taxes',
     'cafe venetia': 'restaurant',
     'international incoming wire fee': 'misc',
-    'quickpay with zelle': 'misc',
+    'quickpay with zelle': 'remove',
     'state farm': 'renters insurance',
     'amzn mktp': 'shopping',
     'general nutrition center': 'shopping',
